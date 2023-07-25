@@ -115,12 +115,25 @@ async function eralend_borrow(private_key) {
             if(retries == 0) {
                 return false;
             } else {
-                console.log("\x1b[33m[%s | %s] [RETRY] Error ..\x1b[0m", new Date().toLocaleString(), shortAddress);
+                console.log("\x1b[33m[%s | %s] [RETRY] Error ..\x1b[0m", new Date().toLocaleString());
             }
         }
     }
 }
 
-for(let i=0; i<private_keys.length; i++){
-    eralend_borrow(private_keys[i]).catch(console.error);
-}
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
+async function run() {
+    for(let i=0; i<private_keys.length; i++){
+      while (true) {
+        try {
+          await eralend_borrow(private_keys[i]);
+        } catch(e) {
+          console.error(e);
+          await delay(5000); 
+        }
+      }
+    }
+  }
+  
+  run();
