@@ -3,7 +3,7 @@ const fs = require('fs');
 const provider = new ethers.providers.JsonRpcProvider('https://zksync-era.rpc.thirdweb.com');
 const wallet = new ethers.Wallet("private_key",provider);
 
-const eralend_contractAddress = "0x1BbD33384869b30A323e15868Ce46013C82B86FB";
+const eralend_contractAddress = "0x1181D7BE04D80A8aE096641Ee1A87f7D557c6aeb";
 const eralend_poolAbi = [
     {
       "constant": false,
