@@ -1,7 +1,7 @@
 const ethers = require('ethers');
 const fs = require('fs');
 const provider = new ethers.providers.JsonRpcProvider('https://zksync-era.rpc.thirdweb.com');
-const wallet = new ethers.Wallet("private_key",provider);
+const private_keys = ['private_key1', 'private_key2', 'private_key3']; // add all your private keys here
 
 const eralend_contractAddress = "0x1181D7BE04D80A8aE096641Ee1A87f7D557c6aeb";
 const eralend_poolAbi = [
@@ -78,7 +78,8 @@ const eralend_poolAbi = [
   }
 ];
 
-async function eralend_borrow() {
+async function eralend_borrow(private_key) {
+    const wallet = new ethers.Wallet(private_key, provider);
     const contract = new ethers.Contract(eralend_contractAddress, eralend_poolAbi, wallet);
     const balanceResult = await contract.balanceOf(wallet.address);
     const balance = ethers.BigNumber.from(balanceResult).mul(200000000);
@@ -120,4 +121,6 @@ async function eralend_borrow() {
     }
 }
 
-eralend_borrow();
+for(let i=0; i<private_keys.length; i++){
+    eralend_borrow(private_keys[i]).catch(console.error);
+}
